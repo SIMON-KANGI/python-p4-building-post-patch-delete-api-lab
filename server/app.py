@@ -59,7 +59,7 @@ def delete_baked_good(id):
     if baked_good:
         db.session.delete(baked_good)
         db.session.commit()
-        return jsonify({'message': f'Baked Good with id {id} deleted'}), 200
+        return jsonify({'message': f'Baked Good with id {id} successfully deleted'}), 200
     else:
         return jsonify({'error': f'Baked Good with id {id} not found'}), 404
 
