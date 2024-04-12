@@ -51,16 +51,19 @@ def create_baked_good():
         db.session.add(new_baked_good)
         db.session.commit()
         return make_response(new_baked_good.to_dict(), 201)
+
+
 @app.route("/baked_goods/<int:id>", methods=['DELETE'])
 def delete_baked_good(id):
-    if request.method == 'DELETE':
-        baked_good = BakedGood.query.get(id)
-        if baked_good:
-            db.session.delete(baked_good)
-            db.session.commit()
-            
-        else:
-            return make_response(f'Baked Good with id {id} not found', 404)
+    baked_good = BakedGood.query.get(id)
+    if baked_good:
+        db.session.delete(baked_good)
+        db.session.commit()
+        return jsonify({'message': f'Baked Good with id {id} deleted'}), 200
+    else:
+        return jsonify({'error': f'Baked Good with id {id} not found'}), 404
+
+
 @app.route('/baked_goods/by_price')
 def baked_goods_by_price():
     baked_goods_by_price = BakedGood.query.order_by(BakedGood.price.desc()).all()
